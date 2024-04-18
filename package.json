@@ -1,0 +1,19 @@
+{
+  "name": "licensie",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@hono/swagger-ui": "^0.2.1",
+    "hono": "^4.2.5",
+    "mongoose": "^8.3.2"
+  }
+}
