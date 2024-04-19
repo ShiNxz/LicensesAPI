@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
-import hosts from './hosts'
 import licenses from './licenses'
+import hosts from './hosts'
 
 const v1 = new Hono()
 

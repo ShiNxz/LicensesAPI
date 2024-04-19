@@ -1,14 +1,17 @@
+import { logger } from 'hono/logger'
 import { Hono } from 'hono'
-import { swaggerUI } from '@hono/swagger-ui'
+
+// Configs
 import MongodbConnect from './config/mongodb'
 
+// Routes
 import v1 from './routes/v1'
 
 await MongodbConnect()
 
 const app = new Hono()
 
-app.get('/ui', swaggerUI({ url: '/v1' }))
+app.use(logger())
 
 app.get('/', (c) => {
 	return c.json({ message: '👋 World' })
