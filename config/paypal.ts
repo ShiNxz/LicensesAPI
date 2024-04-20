@@ -90,7 +90,7 @@ export const CreatePlan = async (module: ModuleType, type: 'MONTHLY' | 'YEARLY')
 				}
 			})
 			.catch(async () => {
-				console.log(`Plan not found for ${module.name}, creating one...`)
+				console.log(`Plan not found for ${module.name} - ${type}, creating one...`)
 
 				const price = type === 'MONTHLY' ? module.monthlyPrice : module.yearlyPrice
 				if (!price) throw new Error('Price not found')
