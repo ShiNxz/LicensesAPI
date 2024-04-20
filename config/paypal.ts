@@ -148,7 +148,7 @@ const createProducts = async () => {
 				if (module.paymentCycle.includes('YEARLY') && module.yearlyPrice) await CreatePlan(module, 'MONTHLY')
 
 				// Create the yearly subscription plan
-				if (module.paymentCycle.includes('YEARLY') && module.monthlyPrice) await CreatePlan(module, 'YEARLY')
+				if (module.paymentCycle.includes('MONTHLY') && module.monthlyPrice) await CreatePlan(module, 'YEARLY')
 
 				continue
 			}
