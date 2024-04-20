@@ -174,20 +174,25 @@ const createProducts = async () => {
 }
 
 const getPlan = async (module: ModuleType, type: 'MONTHLY' | 'YEARLY') => {
-	const productId = module._id.toString()
+	try {
+		const productId = module._id.toString()
+		console.log({ productId })
 
-	const { plans } = await Plans.list({
-		total_required: true,
-		product_id: productId,
-	})
+		const { plans } = await Plans.list({
+			total_required: true,
+			product_id: productId,
+		})
 
-	console.log(plans)
+		console.log({ plans })
 
-	if (!plans) return null
+		if (!plans) return null
 
-	const plan = plans.find((plan) => plan.name.includes(type))
+		const plan = plans.find((plan) => plan.name.includes(type))
 
-	return plan ? plan : null
+		return plan ? plan : null
+	} catch (error) {
+		throw error
+	}
 }
 
 export const StartSubscriptionFlow = async (
