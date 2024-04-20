@@ -7,7 +7,7 @@ const CheckPayment = async (c: Context) => {
 		const token = c.req.query('token')
 		const returnUrl = c.req.query('returnUrl')
 		const subscriptionId = c.req.query('subscription_id')
-
+		console.log({ token, returnUrl, subscriptionId })
 		if (!token) return c.json({ error: 'Token is required' }, 400)
 
 		// Check if there is a pending license with the PayPal token inside the paymnets array
