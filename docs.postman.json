@@ -1,0 +1,433 @@
+{
+	"info": {
+		"_postman_id": "e9518a2b-7a71-412a-85b4-c39f92cafc14",
+		"name": "Licensie",
+		"description": "The project built with Bun & Hono and MongoDB, this is a very simple, but dynamic back-end open source project.\n\nUse this if you need a dynamic and scalable back-end for serving your client licenses, or to extend the project features.\n\n**The license API works with 3 mongodb collections:**\n\n- Hosts: saving hosts, clients, websites, etc, by its identifier, you can add custom fields under the `/models/Host.ts` file.\n    \n- Modules: this is where all the modules being saved and served, you can create new modules, edit and delete them, and use the GET route to serve your modules for you client.\n- Licenses: \"license\" is a temporary license that connects between an host and module, there are utilities and routes that checks checks for license expiry date, status, and etc.\n    \n\nThere are public and private (auth) endpoints, please make sure you set a `TOKEN` variable inside your `.env` file, this will be used as your Bearer Token.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13138334"
+	},
+	"item": [
+		{
+			"name": "Hosts",
+			"item": [
+				{
+					"name": "Register new Host",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"identifier\": \"your-domain.com\",\r\n    \"additionalFields\": {\r\n        \"phone\": \"+1 123456789\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/hosts",
+							"host": ["{{base_url}}"],
+							"path": ["hosts"]
+						},
+						"description": "This is a public endpoint that your clients can use to register, you can register your users automatically or through the payment process.\n\neach user can be registered with a unique identifier, like name, domain, IP address, etc, and can include some additional information.\n\nnote that sending a request with an existing identifier host will update the additional fields."
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Hosts",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"identifier\": \"your-domain.com\",\r\n    \"additionalFields\": {\r\n        \"phone\": \"+1 123456789\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/hosts",
+							"host": ["{{base_url}}"],
+							"path": ["hosts"]
+						},
+						"description": "This is a public endpoint that your clients can use to register, you can register your users automatically or through the payment process.\n\neach user can be registered with a unique identifier, like name, domain, IP address, etc, and can include some additional information."
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific Host",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"identifier\": \"your-domain.com\",\r\n    \"additionalFields\": {\r\n        \"phone\": \"+1 123456789\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/hosts/your-domain.com",
+							"host": ["{{base_url}}"],
+							"path": ["hosts", "your-domain.com"]
+						},
+						"description": "This is a public endpoint that your clients can use to register, you can register your users automatically or through the payment process.\n\neach user can be registered with a unique identifier, like name, domain, IP address, etc, and can include some additional information."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Host",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"identifier\": \"your-domain.com\",\r\n    \"additionalFields\": {\r\n        \"phone\": \"+1 123456789\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/hosts/your-domain.com",
+							"host": ["{{base_url}}"],
+							"path": ["hosts", "your-domain.com"]
+						},
+						"description": "This is a public endpoint that your clients can use to register, you can register your users automatically or through the payment process.\n\neach user can be registered with a unique identifier, like name, domain, IP address, etc, and can include some additional information."
+					},
+					"response": []
+				}
+			],
+			"description": "Hosts are \"users\" / \"clients\" that registered to the license server and used to identify and lock the licenses, each user can be registered with a unique identifier, like name, domain, IP address, etc, and can include some additional information."
+		},
+		{
+			"name": "Modules",
+			"item": [
+				{
+					"name": "Get All Modules (Public)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/modules",
+							"host": ["{{base_url}}"],
+							"path": ["modules"]
+						},
+						"description": "Get all of the available modules, you can use this route to pull all the modules and show them in your front-end website."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category Modules (Public)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/modules/your-category",
+							"host": ["{{base_url}}"],
+							"path": ["modules", "your-category"]
+						},
+						"description": "Get all of the available modules, you can use this route to pull all the modules and show them in your front-end website."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Module",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Your new name\",\n    \"price\": 100.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/modules/your-category",
+							"host": ["{{base_url}}"],
+							"path": ["modules", "your-category"]
+						},
+						"description": "Update a module by its identifier, you can only provide the fields you want to edit as an object.  \nnote that you are not allowed to change the module identifier to avoid conflicts and missing licenses."
+					},
+					"response": []
+				},
+				{
+					"name": "Create new Module",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Module name\",\n    \"identifier\": \"module-identifier\",\n    \"categories\": [\"some-category\"],\n    \"version\": \"1\",\n    \"description\": \"test test\",\n    \"paymentCycle\": [\"MONTHLY\", \"ONE_TIME\"],\n    \"monthlyPrice\": 2.50,\n    \"yearlyPrice\": 0,\n    \"price\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/modules",
+							"host": ["{{base_url}}"],
+							"path": ["modules"]
+						},
+						"description": "Create a new Module in the db, each module has a few types of payment cycles you can select from:\n\n- **Monthly:** the user will pay for the module every 30 days (using PayPal subscriptions), if the user chooses to stop the subscription, the status of the license will expire at the end of the current cycle.\n- **Yearly:** same as the Monthly type, but the user will be billed every 365 days.\n- **One time:** one time payment for a permanent license, the license status of the module will stay `ACTIVE`.\n- **Free:** the module will be free with no payment or subscription process.\n- **Trial:** _currently not implemented._\n    \n\nYou can choose more than one type for each module by defining the type in the `paymentCycle` array.\n\n**Notes:**\n\n- For a free module, you must add the `FREE` cycle to the `paymentCycle` array, and also set the `price` to 0.\n- If you a module include `MONTHLY` / `YEARLY` cycles, you must also provide a `monthlyPrice` and `yearlyPrice`.\n- The `price` field is only relevant to the `FREE` and the `ONE_TIME` cycles.\n- You should group your modules under the same / relevant category, sicne you can pull specific modules by their category."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Module",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/modules/your-category",
+							"host": ["{{base_url}}"],
+							"path": ["modules", "your-category"]
+						},
+						"description": "Delete a specific module by its identifier.  \nyou can't delete a module if it being used in an active license."
+					},
+					"response": []
+				}
+			],
+			"description": "Modules are pre defined \"items\" that your clients can pull.  \non each new license process, a relation between the host and the module is made, so you can then get a list of licenses with their relevant modules."
+		},
+		{
+			"name": "Licenses",
+			"item": [
+				{
+					"name": "Get all licenses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/licenses",
+							"host": ["{{base_url}}"],
+							"path": ["licenses"]
+						},
+						"description": "Get all the licenses from the db along with their status, type, host, etc."
+					},
+					"response": []
+				},
+				{
+					"name": "Get all licenses by status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/licenses?status=ACTIVE",
+							"host": ["{{base_url}}"],
+							"path": ["licenses"],
+							"query": [
+								{
+									"key": "status",
+									"value": "ACTIVE"
+								}
+							]
+						},
+						"description": "Get all the licenses filtered by their status.\n\n**possible statuses:** `PENDING`, `ACTIVE`, `INACTIVE`, `EXPIRED`, `CANCELED`"
+					},
+					"response": []
+				},
+				{
+					"name": "Start new License process",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cycle\": \"MONTHLY\",\r\n    \"hostId\": \"your-host\",\r\n    \"moduleId\": \"your-module\",\r\n    \"returnUrl\": \"http://localhost:5555\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/licenses/start",
+							"host": ["{{base_url}}"],
+							"path": ["licenses", "start"]
+						},
+						"description": "Start a new process, provide the hostId and moduleId you want to get, and the cycle the user wants to use, make sure sure that the cycle is defined in the selected module or else the process will fail.\n\noptionally, you can also provide a `returnUrl` field that the user will be redirected to after the payment.\n\nthe request will return a payment link."
+					},
+					"response": []
+				},
+				{
+					"name": "Get license status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/licenses/your-module/check?host=your-host",
+							"host": ["{{base_url}}"],
+							"path": ["licenses", "your-module", "check"],
+							"query": [
+								{
+									"key": "host",
+									"value": "your-host"
+								}
+							]
+						},
+						"description": "Get a specific host and module license status, note that this is a public endpoint.\n\na response should look like this:\n\n```\n{\n    startDate: Date;\n    lastPayment: {\n        amount: number;\n        date: Date;\n        info: CreatedOrder; // Paypal order\n    };\n    type: \"MONTHLY\" | \"YEARLY\" | \"ONE_TIME\" | \"FREE\" | \"TRIAL\";\n    token: string;\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get license status by token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/licenses/your-token",
+							"host": ["{{base_url}}"],
+							"path": ["licenses", "your-token"]
+						},
+						"description": "Get a specific license token status, note that this is a public endpoint.\n\na response should look like this:\n\n``` json\n{\n    startDate: Date;\n    lastPayment: {\n        amount: number;\n        date: Date;\n        info: CreatedOrder; // Paypal order\n    };\n    type: \"MONTHLY\" | \"YEARLY\" | \"ONE_TIME\" | \"FREE\" | \"TRIAL\";\n    token: string;\n    host: Host;\n    module: Module;\n}\n\n ```"
+					},
+					"response": []
+				}
+			],
+			"description": "Licenses are used to give hosts access to modules for a specific period of time and price, they connect with the module and hosts with a relation.\n\nEach license can be bought with the types defined in the module, for example, if the module cycles are `MONTHLY` and `ONE_TIME` they can be bought for each by defining the cycle the client chose.\n\nEach license also provides a generated uuid `token` that you can use in your website/server, and match with the licenses server when needed."
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "12345",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [""]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [""]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "http://localhost:5555/v1"
+		}
+	]
+}

@@ -1,24 +1,27 @@
 import { Hono } from 'hono'
-import { hostSchema, type hostSchemaType } from '~/schemas/HostSchema'
+import { hostSchema } from '~/schemas/HostSchema'
 import BodyValidator from '~/middlewares/BodyValidator'
-import Host from '~/models/Hosts'
+import TokenMiddleware from '~/middlewares/Token'
+import Host from '~/models/Host'
 
-// Controllers
+// Advanced Controllers
 import RegisterHost from '~/controllers/v1/hosts/RegisterHost'
-import GetSpecficHost from '~/controllers/v1/hosts/GetSpecficHost'
-import GetAllHosts from '~/controllers/v1/hosts/GetAllHosts'
 
 const hosts = new Hono()
 
 /**
  * Get all hosts from the database
  */
-hosts.get('/', GetAllHosts)
+hosts.get('/', TokenMiddleware(), async (c) => {
+	const allHosts = await Host.find()
+
+	return c.json(allHosts)
+})
 
 /**
- * Get a host by its identifier
+ * Get an host by its identifier
  */
-hosts.get('/:identifier', async (c) => {
+hosts.get('/:identifier', TokenMiddleware(), async (c) => {
 	try {
 		const identifier = c.req.param('identifier')
 		const host = await Host.findOne({
@@ -34,8 +37,22 @@ hosts.get('/:identifier', async (c) => {
 })
 
 /**
+ * @public
  * Register a new host to the database
  */
 hosts.post('/', BodyValidator(hostSchema), RegisterHost)
+
+/**
+ * Delete a host by its identifier
+ */
+hosts.delete('/:identifier', TokenMiddleware(), async (c) => {
+	const identifier = c.req.param('identifier')
+
+	const deletedHost = await Host.findOneAndDelete({ identifier })
+
+	if (!deletedHost) return c.json({ error: 'Host not found' }, 404)
+
+	return c.text('', 204)
+})
 
 export default hosts

@@ -1,11 +1,18 @@
-import type { Context } from 'hono'
-import Host from '~/models/Hosts'
 import type { hostSchemaType } from '~/schemas/HostSchema'
+import type { Context } from 'hono'
+import Host from '~/models/Host'
 
 const RegisterHost = async (c: Context) => {
-	const { identifier } = await c.req.json<hostSchemaType>()
+	const { identifier, additionalFields } = await c.req.json<hostSchemaType>()
 
-	const newHost = await Host.create({ identifier })
+	// Check if the host is already registered, if not, create a new one
+	const newHost = await Host.findOneAndUpdate(
+		{ identifier },
+		{
+			additionalFields,
+		},
+		{ upsert: true, new: true }
+	)
 
 	return c.json(newHost)
 }

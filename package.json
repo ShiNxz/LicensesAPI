@@ -3,10 +3,12 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun --watch index.ts"
+    "dev": "bun --watch index.ts",
+    "postinstall": "bunx custompatch"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/node-cron": "^3.0.11"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -14,8 +16,11 @@
   "dependencies": {
     "@hono/zod-openapi": "^0.11.0",
     "@hono/zod-validator": "^0.2.1",
+    "custompatch": "^1.0.26",
     "hono": "^4.2.5",
     "mongoose": "^8.3.2",
+    "node-cron": "^3.0.3",
+    "paypal-jsdk": "^1.1.1",
     "zod": "^3.22.5"
   }
 }

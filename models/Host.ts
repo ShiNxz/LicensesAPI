@@ -1,4 +1,4 @@
-import { models, model, Schema, Model } from 'mongoose'
+import { models, model, Schema, type Model } from 'mongoose'
 
 export interface Host extends Document {
 	_id: string
@@ -6,11 +6,20 @@ export interface Host extends Document {
 	 * Can be a domain, IP address, or token
 	 */
 	identifier: string
+	/**
+	 * Some additional fields
+	 * @example { phone: string }
+	 */
+	additionalFields?: Record<string, string>
+	/**
+	 * We can add more fields here if needed
+	 */
 }
 
 const HostSchema = new Schema(
 	{
 		identifier: String,
+		additionalFields: Object,
 	},
 	{
 		collection: 'Hosts',

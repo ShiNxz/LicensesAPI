@@ -1,4 +1,4 @@
-import mongoose, { connect, type ConnectOptions } from 'mongoose'
+import { connect, type ConnectOptions } from 'mongoose'
 
 const { MONGODB_URI, MONGODB_DB } = Bun.env
 
