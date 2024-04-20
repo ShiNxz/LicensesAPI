@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "bun --watch index.ts",
-    "postinstall": "bunx custompatch"
+    "postinstall": "bunx custompatch",
+	"start": "bun ."
   },
   "devDependencies": {
     "@types/bun": "latest",
