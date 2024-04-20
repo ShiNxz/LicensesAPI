@@ -65,7 +65,7 @@ licenses.get('/:moduleId/check', async (c) => {
  * @public
  * Check if a license is active by its token
  */
-licenses.get('/:token', async (c) => {
+licenses.get('/check/:token', async (c) => {
 	try {
 		const token = c.req.param('token')
 
@@ -117,6 +117,7 @@ licenses.get('/check-payment', CheckPayment)
  */
 licenses.get('/cancel-payment', async (c) => {
 	const subscription_id = c.req.query('subscription_id')
+	console.log(subscription_id)
 
 	const license = await License.findOne({
 		'payments.info.id': subscription_id,
