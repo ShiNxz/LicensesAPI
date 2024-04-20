@@ -31,7 +31,6 @@ Bun.serve({
 	fetch: app.fetch,
 })
 
-// Every 2 minutes
-cron.schedule('*/2 * * * *', () => Tasks.validateLicenses(), {
-	timezone: 'Asia/Jerusalem',
-})
+// Every 24 hours
+const day = '0 0 * * *'
+cron.schedule(day, () => Tasks.validateLicenses())
