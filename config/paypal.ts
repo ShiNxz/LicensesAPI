@@ -145,10 +145,10 @@ const createProducts = async () => {
 				console.log(`Product ${module.name} already exists, updating the plans...`)
 
 				// Create the monthly subscription plan
-				if (module.paymentCycle.includes('YEARLY') && module.yearlyPrice) await CreatePlan(module, 'MONTHLY')
+				if (module.paymentCycle.includes('MONTHLY') && module.monthlyPrice) await CreatePlan(module, 'MONTHLY')
 
 				// Create the yearly subscription plan
-				if (module.paymentCycle.includes('MONTHLY') && module.monthlyPrice) await CreatePlan(module, 'YEARLY')
+				if (module.paymentCycle.includes('YEARLY') && module.yearlyPrice) await CreatePlan(module, 'YEARLY')
 
 				continue
 			}
@@ -163,10 +163,10 @@ const createProducts = async () => {
 			console.log(`Product ${module.name} created`)
 
 			// Create the monthly subscription plan
-			if (module.paymentCycle.includes('YEARLY') && module.yearlyPrice) await CreatePlan(module, 'MONTHLY')
+			if (module.paymentCycle.includes('MONTHLY') && module.monthlyPrice) await CreatePlan(module, 'MONTHLY')
 
 			// Create the yearly subscription plan
-			if (module.paymentCycle.includes('YEARLY') && module.monthlyPrice) await CreatePlan(module, 'YEARLY')
+			if (module.paymentCycle.includes('YEARLY') && module.yearlyPrice) await CreatePlan(module, 'YEARLY')
 		}
 	} catch (error) {
 		console.error(`Error creating plans`, error)
