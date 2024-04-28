@@ -4,11 +4,13 @@ import cron from 'node-cron'
 
 // Configs
 import MongodbConnect from './config/mongodb'
+
+// Tasks
 import { Tasks as PaypalTasks } from './config/paypal'
+import { Tasks } from './tasks/ValidateLicenses'
 
 // Routes
 import v1 from './routes/v1'
-import { Tasks } from './tasks/ValidateLicenses'
 
 await MongodbConnect()
 

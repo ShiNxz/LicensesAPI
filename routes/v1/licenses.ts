@@ -65,7 +65,7 @@ licenses.get('/:moduleId/check/:hostId', async (c) => {
  * @public
  * Get all active licenses by a host
  */
-licenses.get('/:hostId', async (c) => {
+licenses.get('/active/:hostId', async (c) => {
 	try {
 		const hostId = c.req.param('hostId')
 

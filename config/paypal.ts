@@ -58,6 +58,7 @@ export const CreateOrder = async (module: ModuleType, returnUrl?: string) => {
 	}
 }
 
+// todo Also change the prices
 export const CreatePlan = async (module: ModuleType, type: 'MONTHLY' | 'YEARLY') => {
 	try {
 		// Get the product id
