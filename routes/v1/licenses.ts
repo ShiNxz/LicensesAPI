@@ -28,10 +28,10 @@ licenses.get('/', TokenMiddleware(), async (c) => {
  * Check if a license is active
  * Used to check if a host has access to a module
  */
-licenses.get('/:moduleId/check', async (c) => {
+licenses.get('/:moduleId/check/:hostId', async (c) => {
 	try {
 		const moduleId = c.req.param('moduleId')
-		const { host: hostId } = c.req.query()
+		const hostId = c.req.param('hostId')
 
 		const module = await Module.findOne({ identifier: moduleId })
 		if (!module) return c.json({ error: 'Module not found' }, 404)
@@ -55,6 +55,29 @@ licenses.get('/:moduleId/check', async (c) => {
 		}
 
 		return c.json(licenseStatus)
+	} catch (error) {
+		console.error(error)
+		return c.json({ error: 'An error occurred' }, 500)
+	}
+})
+
+/**
+ * @public
+ * Get all active licenses by a host
+ */
+licenses.get('/:hostId', async (c) => {
+	try {
+		const hostId = c.req.param('hostId')
+
+		const host = await Host.findOne({ identifier: hostId })
+		if (!host) return c.json({ error: 'Host not found' }, 404)
+
+		const licenses = await License.find({
+			host,
+			status: 'ACTIVE',
+		}).populate('module')
+
+		return c.json(licenses)
 	} catch (error) {
 		console.error(error)
 		return c.json({ error: 'An error occurred' }, 500)
