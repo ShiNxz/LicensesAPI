@@ -99,7 +99,7 @@ licenses.get('/check/:token', async (c) => {
 			.populate({ path: 'host', select: 'identifier additionalFields' })
 			.populate({
 				path: 'module',
-				select: 'name identifier categories version description paymentCycle monthlyPrice yearlyPrice price',
+				select: 'name identifier categories version description paymentCycle monthlyPrice yearlyPrice price showcase',
 			})
 
 		if (!license) return c.json({ error: 'License not found' }, 404)

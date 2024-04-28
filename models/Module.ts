@@ -49,6 +49,11 @@ export interface Module extends Document {
 	 * if paymentCycle includes 'FREE' and the price is 0, the module will be free
 	 */
 	price?: number
+	/**
+	 * Showcase can be either image or video link
+	 * @example 'https://example.com/image.png'
+	 */
+	showcase?: string
 }
 
 const ModuleSchema = new Schema(
@@ -61,6 +66,7 @@ const ModuleSchema = new Schema(
 		paymentCycle: [String],
 		monthlyPrice: Number,
 		price: Number,
+		showcase: String,
 	},
 	{
 		collection: 'Modules',

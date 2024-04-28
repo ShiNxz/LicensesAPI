@@ -10,6 +10,7 @@ export const moduleSchema = z.object({
 	paymentCycle: z.array(z.enum(ModulePaymentCycles)),
 	monthlyPrice: z.number().optional(),
 	price: z.number().optional(),
+	showcase: z.string().optional(),
 })
 
 export const moduleSchemaPartial = moduleSchema.partial()
