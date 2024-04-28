@@ -74,6 +74,7 @@ const StartLicense = async (c: Context) => {
 			case 'ONE_TIME': {
 				try {
 					const order = await CreateOrder(module, returnUrl)
+					console.log({ order, returnUrl })
 
 					const paymenLink = order.links.find((link) => link.rel === 'approve')
 					if (!paymenLink) return c.json({ error: "Couldn't get paypal link" }, 500)

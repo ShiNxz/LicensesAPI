@@ -9,6 +9,8 @@ const CheckPayment = async (c: Context) => {
 		const subscriptionId = c.req.query('subscription_id')
 		if (!token) return c.json({ error: 'Token is required' }, 400)
 
+		console.log({ returnUrl })
+
 		// Check if there is a pending license with the PayPal token inside the paymnets array
 		const license = await License.findOne({
 			'payments.info.id': subscriptionId ? subscriptionId : token,
@@ -29,9 +31,7 @@ const CheckPayment = async (c: Context) => {
 		license.status = 'ACTIVE'
 		await license.save()
 
-		if (returnUrl) {
-			return c.redirect(returnUrl)
-		}
+		if (returnUrl) return c.redirect(returnUrl)
 
 		// Redirect the user to the success page
 		return c.json({ message: 'Payment successful' })
