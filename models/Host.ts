@@ -14,12 +14,14 @@ export interface Host extends Document {
 	/**
 	 * We can add more fields here if needed
 	 */
+	isGold: boolean
 }
 
 const HostSchema = new Schema(
 	{
 		identifier: String,
 		additionalFields: Object,
+		isGold: { type: Boolean, default: false },
 	},
 	{
 		collection: 'Hosts',

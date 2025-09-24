@@ -39,6 +39,22 @@ licenses.get('/:moduleId/check/:hostId', async (c) => {
 		const host = await Host.findOne({ identifier: hostId })
 		if (!host) return c.json({ error: 'Host not found' }, 404)
 
+		if (host.isGold) {
+			// If the host is a gold member, return a pre-singed license
+			const goldLicense = {
+				startDate: new Date(),
+				lastPayment: null,
+				type: 'GOLD',
+				token: 'GOLD-MEMBER',
+				host,
+				module,
+				status: 'ACTIVE',
+				payments: [],
+			}
+
+			return c.json(goldLicense)
+		}
+
 		const license = await License.findOne({
 			host,
 			module,
@@ -71,6 +87,23 @@ licenses.get('/active/:hostId', async (c) => {
 
 		const host = await Host.findOne({ identifier: hostId })
 		if (!host) return c.json({ error: 'Host not found' }, 404)
+
+		if (host.isGold) {
+			// If the host is a gold member, return all modules with a pre-singed license
+			const modules = await Module.find()
+			const goldLicenses = modules.map((module) => ({
+				startDate: new Date(),
+				lastPayment: null,
+				type: 'GOLD',
+				token: 'GOLD-MEMBER',
+				host,
+				module,
+				status: 'ACTIVE',
+				payments: [],
+			}))
+
+			return c.json(goldLicenses)
+		}
 
 		const licenses = await License.find({
 			host,
