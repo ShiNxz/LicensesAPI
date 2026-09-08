@@ -2,6 +2,9 @@
   "name": "licensie",
   "module": "index.ts",
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "bun --watch index.ts",
     "postinstall": "bunx custompatch",
