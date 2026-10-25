@@ -1,0 +1,12 @@
+# Build context of the Dockerfile. The image installs its own dependencies, so
+# nothing installed on a laptop may leak in.
+node_modules
+*.tsbuildinfo
+
+# Secrets: env reaches the container at runtime from Easypanel, never through the image
+.env
+.env.*
+
+.git
+.claude
+**/.DS_Store
